@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Client</title>
+</head>
+<body>
+
+
+<label for="text_body">Submit a Text and get the Emotion </label>
+<form action="/submit_txt_content" method="post">
+    <textarea type="text" name="text_content" rows="4" cols="50" placeholder="Copy text here..."></textarea>
+    <input type="submit" value="Submit text">
+</form>
+
+<p><strong>Predicted Sentiment: </strong> {{ txt_sentiment }}</p>
+
+
+<br><br><hr style="width:50%;text-align:left;margin-left:0"><br><br>
+
+
+
+<label for="text_id">Send a Batch of Tweets for Sentiment Prediction to Server</label>
+<form action="/submit_batch_tweets" method="post">
+    <input type="submit" value="Submit Tweet Batch">
+</form>
+
+<p> <strong>Batch Endpoint Response: </strong> {{ tweet_batch }}</p>
+
+
+</body>
+</html>

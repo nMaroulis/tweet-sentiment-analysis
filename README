@@ -1,0 +1,56 @@
+The project is implemented in Python3 with fastAPI for the Rest services and Sci-kit Learn for the NLP part.
+Given a problem I had with docker im my machine, along with the limited time to solve it, the dockerfile is not properly tested. Therefore I would suggest running through the conda env, or through pip.
+
+Initiate Environment and Run Server:
+
+1. The virtual environment can be imported using anaconda, with the following commands
+	a. Import conda environment from yml file [sentiment_analysis_env.yml]
+		> conda env create -f sentiment_analysis_env.yml
+	b. Activate env
+		> conda activate sentiment_analysis_env
+
+2. Main Libraries used:
+	* Python v3.9.7
+	* FastAPI (REST API)
+	* Uvicorn (ASGI server implementation)
+	* SQLAlchemy (Object–relational mapping with the DB)
+	* SQLite3 v 3.36.0 (Lightweight DB for python)
+	* jinja2 (For the test client's HTML file handling)
+	* Jupyter Notebook - For implementing the NLP Model and analysis
+	* Scikit Learn - ML Models and Vectorizer/Tf-Idf Transformer
+	* Tensorflow2 - DNN
+	* Seaborn/Matplotlib - visualization
+	* and more..
+
+3. Files
+	a. src/rest_server.py: contains the code and the REST APIs of the backend server
+	b. src/nlp_funcs.py: contains the NLP model class. The class is imported and called in the rest server
+	c. src/client.py: contains a code for testing the REST server, by also providing a basic GUI
+	d. static/client.html: contains the UI of the client
+	e. tweets.db: the sqlite3 database, where the tweets are stored.
+	f. src/sentiment_analysis.ipynb: a jupyter notebook file, where i tested the code for the NLP model and exported it
+	g. sentiment_analysis_env.yml: a file that contains a python virtual env, which can be imported with conda, creating a venv called sentiment_analysis_env
+	h. requirements.txt: list of libraries, can be imported using the pip command
+	i. test_rest_server.py: a sample of a testing file for the rest server. 
+	j. build.dockerfile: the file used to build the docker Image (> docker build -f build.dockerfile)
+
+4. Run the Server and the Client scripts.
+	* Start the REST server
+		> python rest_server.py
+		* The server starts at localhost (127.0.0.1) and port 1234
+		* The server script creates a file called tweets.db which is the sqlite3 database
+	* Start the client
+		> python client.py
+		* The client runs at localhost (127.0.0.1) and port 1235
+		* the HTML file can be accessed at [http://127.0.0.1:1235]
+
+5. Instructions
+	* The client GUI contains two forms
+		* The first is to write/copy-paste a text, where after pressing 'Submit' it is sent to the server via an HTTP GET request in the /text/sentiment/{text content} uri. Then the GUI will display the sentiment response string.
+		* The second form sends a batch of tweets (hard-coded). The endpoint for batch sending is accessed via an HTTP POST request in the /text/sentiment/ , using a JSON body structured: {"tweets": ['abc', 'abc', ...]}
+
+6. Testing
+	a. fastAPI has its own tool [fastapi.testclient] in order to write tests for each REST API (see test_rest_server.py for a sample test). Example is testing invalid characters as inputs, expected responses.
+	b. In bigger settings, response time could also be measured (e.g. for different text sizes -> measure the response time, mainly focusing on the inference time of the ML model)
+	c. A python library that could be used is "pytest", which automatically finds test scripts and executes them
+	d. As for the NLP, the code could be broken down to smaller functions, where unit testing could be implemented for each specific operation, based on expected output, as well as, processing time.
